@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: backend   # ← Kustomize le añadirá -prod
+  name: backend
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: backend-prod   # ✅ nombre FINAL del Deployment
+    name: backend-prod
   minReplicas: 2
   maxReplicas: 6
   metrics:
