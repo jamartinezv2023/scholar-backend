@@ -1,18 +1,18 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - ../../base
-  - hpa.yaml
-
-patches:
-  - path: replicas-patch.yaml
-  - path: image-patch.yaml
-  - path: resources-patch.yaml
-  - path: configmap-prod.yaml
-  - path: secret-prod.yaml
-
-nameSuffix: -prod
-
-commonLabels:
-  environment: prod
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend   # ← Kustomize le añadirá -prod
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-prod   # ✅ nombre FINAL del Deployment
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
