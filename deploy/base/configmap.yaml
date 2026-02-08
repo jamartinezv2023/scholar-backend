@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: backend-config
 data:
-  NODE_ENV: "development"
-  LOG_LEVEL: "debug"
+  APP_NAME: "schollar-backend"
+  LOG_LEVEL: "info"

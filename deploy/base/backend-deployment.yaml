@@ -18,7 +18,14 @@ spec:
           ports:
             - containerPort: 80
 
-          # 🔎 READINESS: ¿está listo para recibir tráfico?
+          # Variables de entorno
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: backend-secrets
+
+          # Readiness Probe
           readinessProbe:
             httpGet:
               path: /
@@ -27,7 +34,7 @@ spec:
             periodSeconds: 5
             failureThreshold: 3
 
-          # 💓 LIVENESS: ¿sigue vivo el proceso?
+          # Liveness Probe
           livenessProbe:
             httpGet:
               path: /
@@ -35,3 +42,12 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 3
+
+          # Recursos (BASE)
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
